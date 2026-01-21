@@ -69,7 +69,7 @@ const Navbar = () => {
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-3">
             <a
-              href="https://wa.me/919441272772"
+              href="https://wa.me/919441272772?text=Hello%20Kasula%20%26%20Associates%2C%20I%20would%20like%20to%20inquire%20about%20your%20CA%20services."
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -115,7 +115,7 @@ const Navbar = () => {
               ))}
               <div className="flex gap-3 mt-4">
                 <a
-                  href="https://wa.me/919441272772"
+                  href="https://wa.me/919441272772?text=Hello%20Kasula%20%26%20Associates%2C%20I%20would%20like%20to%20inquire%20about%20your%20CA%20services."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1"
