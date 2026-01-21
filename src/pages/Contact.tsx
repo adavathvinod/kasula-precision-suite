@@ -171,7 +171,7 @@ const ContactPage = () => {
                 {/* Map */}
                 <div className="glass-card overflow-hidden h-[300px]">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.2!2d78.4!3d17.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDI0JzAwLjAiTiA3OMKwMjQnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3808.035797667232!2d78.54034837493413!3d17.36201038352087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9939af3cdf65%3A0x9b4c4e6cec1ead14!2sKasula%20%26%20Associates%20(CA%20Firm)!5e0!3m2!1sen!2sin!4v1768980204703!5m2!1sen!2sin"
                     width="100%"
                     height="100%"
                     style={{ border: 0, filter: 'grayscale(100%) invert(92%) contrast(83%)' }}
@@ -186,7 +186,7 @@ const ContactPage = () => {
                   <h3 className="font-semibold text-foreground mb-4">Quick Connect</h3>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <a
-                      href="https://wa.me/919441272772"
+                      href="https://wa.me/919441272772?text=Hello%20Kasula%20%26%20Associates%2C%20I%20would%20like%20to%20inquire%20about%20your%20CA%20services."
                       target="_blank"
                       rel="noopener noreferrer"
                     >
