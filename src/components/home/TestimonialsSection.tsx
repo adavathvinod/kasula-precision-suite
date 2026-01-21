@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const testimonials = [
   {
@@ -36,10 +38,12 @@ const testimonials = [
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
+      setDirection(1);
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 5000);
     return () => clearInterval(interval);
@@ -47,12 +51,32 @@ const TestimonialsSection = () => {
 
   const goToNext = () => {
     setIsAutoPlaying(false);
+    setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   };
 
   const goToPrev = () => {
     setIsAutoPlaying(false);
+    setDirection(-1);
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const slideVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 100 : -100,
+      opacity: 0,
+      scale: 0.95,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+    },
+    exit: (dir: number) => ({
+      x: dir < 0 ? 100 : -100,
+      opacity: 0,
+      scale: 0.95,
+    }),
   };
 
   return (
@@ -65,7 +89,7 @@ const TestimonialsSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 space-y-4">
+        <ScrollReveal className="text-center mb-16 space-y-4">
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
             Client Stories
           </span>
@@ -73,42 +97,69 @@ const TestimonialsSection = () => {
             What Our{' '}
             <span className="text-gradient">Clients Say</span>
           </h2>
-        </div>
+        </ScrollReveal>
 
         {/* Testimonial Carousel */}
-        <div className="max-w-4xl mx-auto">
+        <ScrollReveal className="max-w-4xl mx-auto" delay={0.2}>
           <div className="relative">
             {/* Main Card */}
-            <div className="glass-card p-8 md:p-12">
+            <div className="glass-card p-8 md:p-12 overflow-hidden">
               <Quote className="h-12 w-12 text-primary/30 mb-6" />
               
-              <div className="space-y-6">
-                {/* Stars */}
-                <div className="flex gap-1">
-                  {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-primary fill-primary" />
-                  ))}
-                </div>
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={currentIndex}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: 'spring', stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.3 },
+                    scale: { duration: 0.3 },
+                  }}
+                  className="space-y-6"
+                >
+                  {/* Stars */}
+                  <div className="flex gap-1">
+                    {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.05, duration: 0.3 }}
+                      >
+                        <Star className="h-5 w-5 text-primary fill-primary" />
+                      </motion.div>
+                    ))}
+                  </div>
 
-                {/* Content */}
-                <p className="text-lg md:text-xl text-foreground leading-relaxed">
-                  "{testimonials[currentIndex].content}"
-                </p>
+                  {/* Content */}
+                  <p className="text-lg md:text-xl text-foreground leading-relaxed">
+                    "{testimonials[currentIndex].content}"
+                  </p>
 
-                {/* Author */}
-                <div className="pt-4 border-t border-white/10">
-                  <p className="font-semibold text-foreground">
-                    {testimonials[currentIndex].name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonials[currentIndex].role}
-                  </p>
-                </div>
-              </div>
+                  {/* Author */}
+                  <div className="pt-4 border-t border-white/10">
+                    <p className="font-semibold text-foreground">
+                      {testimonials[currentIndex].name}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonials[currentIndex].role}
+                    </p>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Navigation */}
-            <div className="flex items-center justify-center gap-4 mt-8">
+            <motion.div 
+              className="flex items-center justify-center gap-4 mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
               <Button
                 variant="glass"
                 size="icon"
@@ -121,17 +172,20 @@ const TestimonialsSection = () => {
               {/* Dots */}
               <div className="flex gap-2">
                 {testimonials.map((_, index) => (
-                  <button
+                  <motion.button
                     key={index}
                     onClick={() => {
                       setIsAutoPlaying(false);
+                      setDirection(index > currentIndex ? 1 : -1);
                       setCurrentIndex(index);
                     }}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    className={`h-2 rounded-full transition-all duration-300 ${
                       index === currentIndex
                         ? 'bg-primary w-8'
-                        : 'bg-white/20 hover:bg-white/40'
+                        : 'bg-white/20 hover:bg-white/40 w-2'
                     }`}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
                   />
                 ))}
               </div>
@@ -144,9 +198,9 @@ const TestimonialsSection = () => {
               >
                 <ChevronRight className="h-5 w-5" />
               </Button>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
