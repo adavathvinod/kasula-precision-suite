@@ -7,6 +7,8 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import StaggerContainer, { StaggerItem } from '@/components/animations/StaggerContainer';
 
 const services = [
   {
@@ -15,7 +17,6 @@ const services = [
     subtitle: 'GST & Income Tax',
     description: 'Complete tax planning, GST returns, ITR filing, and compliance management with precision.',
     features: ['GST Returns', 'Income Tax Filing', 'Tax Planning', 'TDS Compliance'],
-    span: 'col-span-6 md:col-span-3',
   },
   {
     icon: FileCheck,
@@ -23,7 +24,6 @@ const services = [
     subtitle: 'Statutory & Internal',
     description: 'Comprehensive audit services ensuring compliance and financial accuracy for your business.',
     features: ['Statutory Audit', 'Internal Audit', 'Tax Audit', 'Compliance Review'],
-    span: 'col-span-6 md:col-span-3',
   },
   {
     icon: Building2,
@@ -31,7 +31,6 @@ const services = [
     subtitle: 'ROC & Registrations',
     description: 'End-to-end corporate services from company formation to annual compliance filings.',
     features: ['Company Registration', 'ROC Filings', 'Annual Returns', 'LLP Compliance'],
-    span: 'col-span-6 md:col-span-3',
   },
   {
     icon: Lightbulb,
@@ -39,7 +38,6 @@ const services = [
     subtitle: 'Project Reports & CMA',
     description: 'Strategic financial advisory including project reports, CMA data, and business consulting.',
     features: ['Project Reports', 'CMA Data', 'Business Advisory', 'Loan Documentation'],
-    span: 'col-span-6 md:col-span-3',
   },
 ];
 
@@ -52,7 +50,7 @@ const ServicesGrid = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16 space-y-4">
+        <ScrollReveal className="text-center mb-16 space-y-4">
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
             Our Expertise
           </span>
@@ -64,15 +62,14 @@ const ServicesGrid = () => {
             Comprehensive financial services designed to help your business thrive
             with accuracy and reliability at every step.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Bento Grid */}
-        <div className="bento-grid">
-          {services.map((service, index) => (
-            <div
+        <StaggerContainer className="bento-grid" staggerDelay={0.15}>
+          {services.map((service) => (
+            <StaggerItem
               key={service.title}
-              className={`${service.span} bento-item group cursor-pointer`}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="col-span-6 md:col-span-3 bento-item group cursor-pointer"
             >
               <div className="h-full flex flex-col">
                 {/* Icon */}
@@ -111,19 +108,19 @@ const ServicesGrid = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* CTA */}
-        <div className="text-center mt-12">
+        <ScrollReveal className="text-center mt-12" delay={0.4}>
           <Link to="/services">
             <Button variant="outline" size="lg" className="group">
               View All Services
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
           </Link>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
